@@ -10,35 +10,33 @@ import './App.css';
 class App extends React.Component {
 
   state = {
-    user: null,
-  }
-
-  componentDidMount = () => {
-    if( localStorage.getItem('token') ) this.validateToken()
+    username: null,
   }
   
-  handleSignup = event => {
-    event.preventDefault()
-    console.log("SIGN UP")
+  handleSignup = ({ username, password }) => {
+    //add some async feedback for the user (i.e. disable the forms, or show loading sign)
+    // move this to SignupForm and pass postAuth down through props
+    API.signup({ username, password })
+    .then( this.postAuth )
   }
 
-  handleLogin = event => {
-    event.preventDefault()
-    console.log("LOG IN")
+  handleLogin = ({ username, password }) => {
+    //add some async feedback for the user (i.e. disable the forms, or show loading sign)
+    // move this to LoginForm and pass postAuth down through props
+    API.login({ username, password })
+    .then( this.postAuth )
   }
 
-  validateToken = () => {
-    // API.validate()
-    // .then( userData => {
-    //   if(userData.error) {
-    //     this.logout()
-    //   } else {
-
-    //   }
-    // })
+  postAuth = (userData) => {
+    if (userData.error) {
+      alert(userData.error)
+    } else {
+      this.setState({ username: userData.username })
+      this.props.history.push('/main')
+    }
   }
 
-  logout = () => {
+  handleLogout = () => {
     console.log("Logging out")
   }
 
@@ -50,7 +48,7 @@ class App extends React.Component {
         <Switch>
           <Route
             exact
-            path="/login"
+            path="/"
             component={() => 
               <AuthPage 
                 handleLogin={handleLogin} 
@@ -60,10 +58,10 @@ class App extends React.Component {
           />
           <Route
             exact
-            path="/"
+            path="/main"
             component={() => <MainPage />} 
           />
-          <Redirect to="/" />
+          <Redirect to="/main" />
         </Switch>
       </div>
     )
