@@ -1,0 +1,4 @@
+#conversation-content {
+  border: 3px solid yellow;
+  grid-area: cc;
+}

@@ -1,0 +1,9 @@
+#main {
+  border: 3px solid red;
+  display: grid;
+  grid-template-rows: 30px auto;
+  grid-template-columns: 200px auto;
+  grid-template-areas: 
+    "tb tb"
+    "ml cc";
+}
