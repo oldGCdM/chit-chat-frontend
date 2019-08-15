@@ -1,8 +1,8 @@
 import React from 'react';
 import { withRouter, Switch, Route, Redirect } from 'react-router-dom'
 
-import AuthPage from './pages/AuthPage'
-import MainPage from './pages/MainPage'
+import AuthPage from './pages/AuthPage/AuthPage'
+import MainPage from './pages/MainPage/MainPage'
 import API from './API'
 
 import './App.css';
@@ -10,7 +10,7 @@ import './App.css';
 class App extends React.Component {
 
   state = {
-    username: null,
+    username: "",
   }
   
   handleSignup = ({ username, password }) => {
@@ -35,16 +35,29 @@ class App extends React.Component {
       this.props.history.push('/main')
     }
   }
-
+  
   handleLogout = () => {
     console.log("Logging out")
   }
 
+  componentDidMount() {
+    API.validate()
+    .then( resp => {
+      if (resp.error) {
+        this.props.history.push('/login')
+      } else {
+        this.setState({ username: resp.username })
+        this.props.history.push('/')
+      }
+    })
+  }
+
   render() {
-    const {  handleSignup, handleLogin } = this
+    const { handleSignup, handleLogin, handleLogout } = this
+    const { username } = this.state
 
     return (
-      <div className="app">
+      <div id="app">
         <Switch>
           <Route
             exact
@@ -61,7 +74,11 @@ class App extends React.Component {
             exact
             path="/"
             component={(routerProps) => 
-              <MainPage {...routerProps} />
+              <MainPage 
+                {...routerProps} 
+                username={username}
+                handleLogout={handleLogout}
+              />
             } 
           />
           <Redirect to="/" />
