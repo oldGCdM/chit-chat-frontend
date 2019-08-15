@@ -48,9 +48,10 @@ class App extends React.Component {
         <Switch>
           <Route
             exact
-            path="/"
-            component={() => 
+            path={["/login", "/signup"]}
+            component={(routerProps) => 
               <AuthPage 
+                {...routerProps}
                 handleLogin={handleLogin} 
                 handleSignup={handleSignup} 
               />
@@ -58,10 +59,12 @@ class App extends React.Component {
           />
           <Route
             exact
-            path="/main"
-            component={() => <MainPage />} 
+            path="/"
+            component={(routerProps) => 
+              <MainPage {...routerProps} />
+            } 
           />
-          <Redirect to="/main" />
+          <Redirect to="/" />
         </Switch>
       </div>
     )

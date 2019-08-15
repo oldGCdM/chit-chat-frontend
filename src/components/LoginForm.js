@@ -48,7 +48,7 @@ export default class LoginForm extends React.Component {
         />
         <br/><br/>
 
-        <input type="submit" value="Log In" />
+        <input type="submit" value="Log in" />
       </form>
     )
   }

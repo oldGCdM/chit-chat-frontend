@@ -67,7 +67,7 @@ export default class SignupForm extends React.Component {
         />
         <br/><br/>
 
-        <input type="submit" value="Log In" />
+        <input type="submit" value="Sign up" />
       </form>
     )
   }
