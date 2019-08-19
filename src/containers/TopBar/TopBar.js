@@ -7,10 +7,13 @@ import './TopBar.css'
 
 export default class TopBar extends Component {
   render() {
+    const { history, location, match } = this.props
+    const routerProps = { history, location, match }
+    
     return (
       <div id="top-bar">
         <Search />
-        <Menu />
+        <Menu {...routerProps} />
       </div>
     )
   }

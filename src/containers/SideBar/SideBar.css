@@ -1,0 +1,4 @@
+#side-bar {
+  border: 3px solid blue;
+  grid-area: sb;
+}

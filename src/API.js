@@ -1,6 +1,6 @@
 const baseUrl = "http://localhost:3001"
 
-const optionsBuilder = (method, payload, headers = {}) => {
+const optionsBuilder = (method, payload = undefined, headers = {}) => {
   return {
     method,
     credentials: 'include',
@@ -28,7 +28,12 @@ export default class API {
   }
 
   static validate = () => {
-    return fetch(baseUrl + '/validate', optionsBuilder('GET', undefined))
+    return fetch(baseUrl + '/validate', optionsBuilder('GET'))
+    .then( parseJson )
+  }
+
+  static logout = () => {
+    return fetch(baseUrl + '/logout', optionsBuilder('GET'))
     .then( parseJson )
   }
 }
