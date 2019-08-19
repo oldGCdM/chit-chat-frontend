@@ -1,11 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-export default class Search extends Component {
-  render() {
-    return (
-      <div>
-        
-      </div>
-    )
-  }
+export default function Search() {
+  return (
+    <div>
+      <input placeholder="Search" />
+    </div>
+  )
 }
+

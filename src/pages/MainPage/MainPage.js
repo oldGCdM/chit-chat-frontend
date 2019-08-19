@@ -2,7 +2,7 @@ import React from 'react'
 
 import TopBar from '../../containers/TopBar/TopBar'
 import SideBar from '../../containers/SideBar/SideBar'
-import ConversationContent from '../../containers/ConversationContent/ConversationContent'
+import ConversationContainer from '../../containers/ConversationContainer/ConversationContainer'
 
 import './MainPage.css'
 
@@ -16,7 +16,7 @@ export default class MainPage extends React.Component {
       <div id="main" >
         <TopBar {...routerProps} />
         <SideBar />
-        <ConversationContent />
+        <ConversationContainer />
       </div>
     )
   }

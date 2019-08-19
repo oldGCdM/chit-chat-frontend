@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import Menu from '../Menu/Menu'
-import Search from '../../components/Search/Search'
+import Avatar from '../../components/Avatar/Avatar'
 
 import './TopBar.css'
 
@@ -12,7 +12,7 @@ export default class TopBar extends Component {
     
     return (
       <div id="top-bar">
-        <Search />
+        <Avatar />
         <Menu {...routerProps} />
       </div>
     )

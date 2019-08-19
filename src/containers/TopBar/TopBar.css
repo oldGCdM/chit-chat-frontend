@@ -1,4 +1,8 @@
 #top-bar {
   border: 3px solid green;
-  grid-area: tb
+  grid-area: tb;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas:
+    ".... avatar menu"
 }

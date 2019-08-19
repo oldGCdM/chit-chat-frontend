@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 
 import API from '../../API'
 
+import './Menu.css'
+
 export default class Menu extends Component {
 
   handleLogout = () => {
@@ -10,8 +12,9 @@ export default class Menu extends Component {
   }
   
   render() {
+    // For now just a logout button
     return (
-      <div>
+      <div id="menu" >
         <button onClick={this.handleLogout} >Logout</button>
       </div>
     )
