@@ -11,6 +11,7 @@ export default class MainPage extends React.Component {
 
   state = {
     conversations: [],
+    selectedConversation: null,
   }
 
   componentDidMount() {
