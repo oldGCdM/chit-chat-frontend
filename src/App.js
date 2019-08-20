@@ -11,6 +11,7 @@ class App extends React.Component {
 
   state = {
     username: "",
+    dataLoaded: false,
   }
   
   handleSignup = ({ username, password }) => {
@@ -50,39 +51,44 @@ class App extends React.Component {
         this.props.history.push('/')
       }
     })
+    .then( () => this.setState({ dataLoaded: true }))
   }
 
   render() {
     const { handleSignup, handleLogin, handleLogout } = this
-    const { username } = this.state
+    const { username, dataLoaded } = this.state
 
     return (
       <div id="app">
-        <Switch>
-          <Route
-            exact
-            path={["/login", "/signup"]}
-            component={(routerProps) => 
-              <AuthPage 
-                {...routerProps}
-                handleLogin={handleLogin} 
-                handleSignup={handleSignup} 
-              />
-            } 
-          />
-          <Route
-            exact
-            path="/"
-            component={(routerProps) => 
-              <MainPage 
-                {...routerProps} 
-                username={username}
-                handleLogout={handleLogout}
-              />
-            } 
-          />
-          <Redirect to="/" />
-        </Switch>
+        {
+          dataLoaded
+          ? <Switch>
+            <Route
+              exact
+              path={["/login", "/signup"]}
+              render={(routerProps) => 
+                <AuthPage 
+                  {...routerProps}
+                  handleLogin={handleLogin} 
+                  handleSignup={handleSignup} 
+                />
+              } 
+            />
+            <Route
+              exact
+              path="/"
+              render={(routerProps) => 
+                <MainPage 
+                  {...routerProps} 
+                  username={username}
+                  handleLogout={handleLogout}
+                />
+              } 
+            />
+            <Redirect to="/" />
+          </Switch>
+          : null
+        }
       </div>
     )
   }
