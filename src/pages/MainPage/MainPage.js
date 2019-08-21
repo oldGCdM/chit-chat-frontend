@@ -11,7 +11,25 @@ export default class MainPage extends React.Component {
 
   state = {
     conversations: [],
-    selectedConversation: null,
+    currentConversationId: null,
+  }
+
+  conversationPreviews = () => {
+    return this.state.conversations.map(convo => {
+      return {
+        id: convo.id,
+        name: convo.name,
+        users: convo.users,
+      }
+    })
+  }
+
+  setCurrentConversation = (conversationId) => {
+    this.setState({ currentConversationId: conversationId })
+  }
+
+  currentConversation = () => {
+    return this.state.conversations.find(c => c.id === this.state.currentConversationId)
   }
 
   componentDidMount() {
@@ -21,14 +39,22 @@ export default class MainPage extends React.Component {
   }
   
   render() {
-    const { history, location, match } = this.props
+    const { conversations } = this.state
+    const { history, location, match, username } = this.props
+    const { conversationPreviews, setCurrentConversation, currentConversation } = this
     const routerProps = { history, location, match }
 
     return (
       <div id="main" >
         <TopBar {...routerProps} />
-        <SideBar />
-        <ConversationContainer />
+        <SideBar 
+          conversations={ conversationPreviews() } 
+          username={username}
+          setCurrentConversation={setCurrentConversation}
+        />
+        <ConversationContainer 
+          conversation={ currentConversation() }
+        />
       </div>
     )
   }

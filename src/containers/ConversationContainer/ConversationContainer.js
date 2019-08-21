@@ -5,12 +5,22 @@ import MessageInput from '../../components/MessageInput/MessageInput';
 
 import './ConversationContainer.css'
 
-export default class ConversationContent extends Component {
+export default class ConversationContainer extends Component {
   render() {
+    const { conversation } = this.props
+    
     return (
       <div id="conversation-container">
-        <MessageContainer />
-        <MessageInput />
+      {
+        conversation
+        ? <>
+          <MessageContainer 
+            messages={conversation.messages}
+          />
+          <MessageInput />
+        </>
+        : <img src="https://i.pinimg.com/originals/22/32/4b/22324b56ab4956479efc2f4ecaa61b20.png" />
+      }
       </div>
     )
   }

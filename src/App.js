@@ -87,7 +87,7 @@ class App extends React.Component {
             />
             <Redirect to="/" />
           </Switch>
-          : null
+          : "Loading"
         }
       </div>
     )
