@@ -3,8 +3,8 @@ import { withRouter, Switch, Route, Redirect } from 'react-router-dom'
 
 import AuthPage from './pages/AuthPage/AuthPage'
 import MainPage from './pages/MainPage/MainPage'
-import API from './API'
 
+import API from './API'
 import './App.css';
 
 class App extends React.Component {

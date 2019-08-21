@@ -10,6 +10,7 @@ import './MainPage.css'
 export default class MainPage extends React.Component {
 
   state = {
+    socket: null,
     conversations: [],
     currentConversationId: null,
   }
@@ -32,16 +33,30 @@ export default class MainPage extends React.Component {
     return this.state.conversations.find(c => c.id === this.state.currentConversationId)
   }
 
+  handleMessageSubmit = (content, conversationId) => {
+    this.state.socket.emit('new-message', { content, conversationId })
+  }
+
+  receiveNewMessage = (message, conversationId) => {
+    const targetConversation = {...this.state.conversations.find(c => c.id === conversationId)}
+    targetConversation.messages.push(message)
+
+    this.setState({
+      conversations: this.state.conversations.map(c => c.id === conversationId ? targetConversation : c)
+    })
+  }
+
   componentDidMount() {
     const socket = io('http://localhost:3001')
 
-    socket.on('initial-conversations', conversations => this.setState({ conversations }) )
+    socket.on('initial-conversations', conversations => this.setState({ socket, conversations }) )
+    socket.on('new-message', this.receiveNewMessage)
   }
   
   render() {
     const { conversations } = this.state
     const { history, location, match, username } = this.props
-    const { conversationPreviews, setCurrentConversation, currentConversation } = this
+    const { conversationPreviews, setCurrentConversation, currentConversation, handleMessageSubmit } = this
     const routerProps = { history, location, match }
 
     return (
@@ -54,6 +69,7 @@ export default class MainPage extends React.Component {
         />
         <ConversationContainer 
           conversation={ currentConversation() }
+          handleMessageSubmit={handleMessageSubmit}
         />
       </div>
     )

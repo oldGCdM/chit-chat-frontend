@@ -1,9 +1,24 @@
 import React from 'react'
 
-export default function MessageInput() {
+import API from '../../API'
+
+export default function MessageInput(props) {
+
+  const [message, setMessage] = React.useState("")
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+
+    props.handleMessageSubmit(message, props.conversationId)
+  }
+  
   return (
-    <div>
-      <input placeholder="Message input" />
-    </div>
+    <form onSubmit={handleSubmit}>
+      <input 
+        placeholder="Message input" 
+        value={message}
+        onChange={e => setMessage(e.target.value)}
+      />
+    </form>
   )
 }
