@@ -1,7 +1,5 @@
 import React from 'react'
 
-import API from '../../API'
-
 export default function MessageInput(props) {
 
   const [message, setMessage] = React.useState("")

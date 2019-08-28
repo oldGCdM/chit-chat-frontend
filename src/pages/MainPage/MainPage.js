@@ -54,7 +54,6 @@ export default class MainPage extends React.Component {
   }
   
   render() {
-    const { conversations } = this.state
     const { history, location, match, username } = this.props
     const { conversationPreviews, setCurrentConversation, currentConversation, handleMessageSubmit } = this
     const routerProps = { history, location, match }
