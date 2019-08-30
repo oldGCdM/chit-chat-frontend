@@ -1,6 +1,7 @@
 #conversation-container {
   border: 3px solid yellow;
   grid-area: cc;
+  overflow: auto;
 }
 
 #conversation-container img {

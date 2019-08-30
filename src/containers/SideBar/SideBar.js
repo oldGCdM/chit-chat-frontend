@@ -1,17 +1,19 @@
 import React, { Component } from 'react'
 
-import Search from '../../components/Search/Search'
+import NewConversationButton from '../../components/NewConversationButton/NewConversationButton'
 import ConversationList from '../ConversationList/ConversationList'
 
 import "./SideBar.css"
 
 export default class SideBar extends Component {
   render() {
-    const { conversations, username, setCurrentConversation } = this.props
+    const { conversations, username, setCurrentConversation, handleNewConversation } = this.props
     
     return (
       <div id="side-bar">
-        <Search />
+        <NewConversationButton 
+          handleNewConversation={handleNewConversation}
+        />
         <ConversationList 
           conversations={conversations} 
           username={username}

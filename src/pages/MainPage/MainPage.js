@@ -11,6 +11,7 @@ export default class MainPage extends React.Component {
 
   state = {
     socket: null,
+    users: [],
     conversations: [],
     currentConversationId: null,
   }
@@ -34,28 +35,52 @@ export default class MainPage extends React.Component {
   }
 
   handleMessageSubmit = (content, conversationId) => {
-    this.state.socket.emit('new-message', { content, conversationId })
+    this.state.socket.emit('create-message', { content, conversationId })
   }
 
-  receiveNewMessage = (message, conversationId) => {
+  receiveNewMessage = (newMessage, conversationId) => {
     const targetConversation = {...this.state.conversations.find(c => c.id === conversationId)}
-    targetConversation.messages.push(message)
+    targetConversation.messages.push(newMessage)
 
     this.setState({
       conversations: this.state.conversations.map(c => c.id === conversationId ? targetConversation : c)
     })
   }
 
+  handleNewConversation = () => {
+    this.state.socket.emit('create-conversation')
+  }
+
+  receiveNewConversation = (newConversation) => {
+    this.setState({ conversations: [newConversation, ...this.state.conversations] })
+  }
+
+  handleAddUserToConversation = (userId, conversationId) => {
+    this.state.socket.emit('add-user-to-conversation', userId, conversationId)
+  }
+
+  receiveNewUserInConversation = (user, conversationId) => {
+    const updatedConversation = {...this.state.conversations.find(c => c.id === conversationId)}
+    updatedConversation.users.push(user)
+    
+    this.setState({
+      conversations: this.state.conversations.map(c => c.id === conversationId ? updatedConversation : c)
+    })
+  }
+
   componentDidMount() {
     const socket = io('http://localhost:3001')
 
-    socket.on('initial-conversations', conversations => this.setState({ socket, conversations }) )
+    socket.on('initial-conversations', (conversations, users) => this.setState({ socket, conversations, users }) )
     socket.on('new-message', this.receiveNewMessage)
+    socket.on('new-conversation', this.receiveNewConversation)
+    socket.on('new-user-in-conversation', this.receiveNewUserInConversation)
   }
   
   render() {
+    const { users } = this.state
     const { history, location, match, username } = this.props
-    const { conversationPreviews, setCurrentConversation, currentConversation, handleMessageSubmit } = this
+    const { conversationPreviews, setCurrentConversation, currentConversation, handleMessageSubmit, handleNewConversation, handleAddUserToConversation } = this
     const routerProps = { history, location, match }
 
     return (
@@ -65,9 +90,12 @@ export default class MainPage extends React.Component {
           conversations={ conversationPreviews() } 
           username={username}
           setCurrentConversation={setCurrentConversation}
+          handleNewConversation={handleNewConversation}
         />
         <ConversationContainer 
+          users={users}
           conversation={ currentConversation() }
+          handleAddUserToConversation={handleAddUserToConversation}
           handleMessageSubmit={handleMessageSubmit}
         />
       </div>

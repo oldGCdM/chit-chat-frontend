@@ -1,6 +1,7 @@
 #main {
   /* border: 3px solid red; */
   min-height: 100vh;
+  max-height: 100vh;
   display: grid;
   grid-template-rows: 1fr 2fr 16fr 1fr;
   grid-template-columns: 1fr 6fr 12fr 1fr;
