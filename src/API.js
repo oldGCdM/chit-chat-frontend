@@ -36,4 +36,9 @@ export default class API {
     return fetch(baseUrl + '/logout', optionsBuilder('GET'))
     .then( parseJson )
   }
+
+  static fetchUsersNotInConversation = (conversationId) => {
+    return fetch(baseUrl + '/users', optionsBuilder('POST', { conversationId }))
+    .then( parseJson )
+  }
 }

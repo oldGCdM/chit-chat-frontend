@@ -11,7 +11,6 @@ export default class MainPage extends React.Component {
 
   state = {
     socket: null,
-    users: [],
     conversations: [],
     currentConversationId: null,
   }
@@ -55,8 +54,8 @@ export default class MainPage extends React.Component {
     this.setState({ conversations: [newConversation, ...this.state.conversations] })
   }
 
-  handleAddUserToConversation = (userId, conversationId) => {
-    this.state.socket.emit('add-user-to-conversation', userId, conversationId)
+  handleAddUserToConversation = (username, conversationId) => {
+    this.state.socket.emit('add-user-to-conversation', username, conversationId)
   }
 
   receiveNewUserInConversation = (user, conversationId) => {
@@ -71,14 +70,13 @@ export default class MainPage extends React.Component {
   componentDidMount() {
     const socket = io('http://localhost:3001')
 
-    socket.on('initial-conversations', (conversations, users) => this.setState({ socket, conversations, users }) )
+    socket.on('initial-conversations', (conversations) => this.setState({ socket, conversations }) )
     socket.on('new-message', this.receiveNewMessage)
     socket.on('new-conversation', this.receiveNewConversation)
     socket.on('new-user-in-conversation', this.receiveNewUserInConversation)
   }
   
   render() {
-    const { users } = this.state
     const { history, location, match, username } = this.props
     const { conversationPreviews, setCurrentConversation, currentConversation, handleMessageSubmit, handleNewConversation, handleAddUserToConversation } = this
     const routerProps = { history, location, match }
@@ -93,7 +91,6 @@ export default class MainPage extends React.Component {
           handleNewConversation={handleNewConversation}
         />
         <ConversationContainer 
-          users={users}
           conversation={ currentConversation() }
           handleAddUserToConversation={handleAddUserToConversation}
           handleMessageSubmit={handleMessageSubmit}

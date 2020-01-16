@@ -9,28 +9,19 @@ import './ConversationContainer.css'
 
 export default class ConversationContainer extends Component {
 
-  state = {
-    showUsers: false,
-  }
-
-  toggleShowUsers = () => {
-    this.setState({ showUsers: !this.state.showUsers })
-  }
-
-  addUserToConversation = (userId) => {
-    this.props.handleAddUserToConversation(userId, this.props.conversation.id)
+  addUserToConversation = (username) => {
+    this.props.handleAddUserToConversation(username, this.props.conversation.id)
   }
   
   render() {
-    const { users, conversation, handleMessageSubmit } = this.props
+    const { conversation, handleMessageSubmit } = this.props
     
     return (
       <div id="conversation-container">
       {
         conversation
         ? <>
-          <AddUserButton toggleShowUsers={this.toggleShowUsers} />
-          { this.state.showUsers ? <AddUserContainer users={users} addUserToConversation={this.addUserToConversation} /> : null }
+          <AddUserContainer addUserToConversation={this.addUserToConversation} conversationId={this.props.conversation.id}/>
           <MessageContainer messages={conversation.messages} />
           <MessageInput conversationId={conversation.id} handleMessageSubmit={handleMessageSubmit} />
         </>

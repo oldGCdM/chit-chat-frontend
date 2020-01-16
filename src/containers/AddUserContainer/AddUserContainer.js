@@ -1,35 +1,50 @@
 import React, { Component } from 'react'
 
-import UserPreview from '../../components/UserPreview/UserPreview'
+// import UserPreview from '../../components/UserPreview/UserPreview'
+import AddUserInput from '../../components/AddUserInput/AddUserInput'
 
 export default class AddUserContainer extends Component {
 
   state = {
     searchTerm: '',
+    showInput: false,
   }
 
   handleSearchChange = (event) => {
     this.setState({ searchTerm: event.target.value })
   }
 
-  renderFiveUsers = () => {
-    return this.props.users
-    .filter( u => u.username.toLowerCase().includes(this.state.searchTerm.toLowerCase()) )
-    .slice(0, 5)
-    .map( u => <UserPreview key={u.id} user={u} addUserToConversation={this.props.addUserToConversation} />)
+  toggleShowInput = () => {
+    this.setState({ showInput: !this.state.showInput })
   }
-  
+
+  handleUserSelect = (event) => {
+    if (event.nativeEvent.constructor !== InputEvent) {
+      this.props.addUserToConversation(event.target.value)
+      this.setState({
+        searchTerm: '',
+        showInput: false,
+      })
+    }
+  }
+
   render() {
-    const { searchTerm } = this.state
-    const { handleSearchChange, renderFiveUsers } = this
+    const { searchTerm, showInput } = this.state
+    const { handleSearchChange, toggleShowInput, handleUserSelect } = this
 
     return (
-      <div>
-        <input 
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
-        { renderFiveUsers() }
+      <div id="add-user-container">
+        { 
+          showInput 
+          ? <AddUserInput
+              conversationId={this.props.conversationId}
+              searchTerm={searchTerm}
+              handleSearchChange={handleSearchChange}
+              handleUserSelect={handleUserSelect}
+            /> 
+          : null 
+        }
+        <button onClick={toggleShowInput} >+ Add User</button>
       </div>
     )
   }
